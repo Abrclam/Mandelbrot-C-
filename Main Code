@@ -1,0 +1,47 @@
+#include <allegro5\allegro.h>
+#include <allegro5\allegro_primitives.h>
+#include <iostream>
+#include <complex>
+using namespace std;
+const int width = 800;
+const int height = 800;
+//writing functions: declare, define, call
+
+double mandelbrot(complex<double>c); //declaration
+
+int main() {
+	al_init();
+	al_init_primitives_addon();
+	ALLEGRO_DISPLAY* display = al_create_display(width, height);
+	complex<double>c;
+	int num;
+	for (double i = -2; i < 2; i+= .003)
+		for (double j = -2; j < 2; j+= .003) {
+			c = complex<double>(i, j);
+			num = mandelbrot(c);
+			al_put_pixel(i * 100 + 400, j * 100 + 400, al_map_rgb(num * num, num /2, num *10));
+			cout << "num is " << num << " at " << i * 400 + 400 << "" << j * 400 + 400 << endl;
+			al_flip_display();
+			
+		}
+
+
+	system("pause");
+	al_destroy_display(display);
+
+
+
+
+}
+
+
+//function definition goes here
+double mandelbrot(complex<double>c) {
+	complex <double> z = 0;
+	int counter = 0;
+	while (abs(z) < 2 && counter < 80) {
+		z = z* z + c;
+		counter++;
+	}
+	return counter;
+}
